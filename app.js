@@ -40,7 +40,7 @@ function updateTable(name){
         if  (typeof(name) == "undefined"){
             name = '940';
         }
-        console.log(name);
+        
         var thisOne = metadata[0];
         var table = d3.select('.panel-body').append('table');
         d3.selectAll('tr').remove();
@@ -72,7 +72,7 @@ function barGraph(name){
         if  (typeof(name) == "undefined"){
             name = '940';
         }
-        console.log(name);
+        
         var thisOne = samples[0];
         samples.forEach(subject =>{
             if (subject['id'] == name){
@@ -108,7 +108,7 @@ function gauge(name){
         if  (typeof(name) == "undefined"){
             name = '940';
         }
-        console.log(name);
+        
         var washing = metadata[0]['wfreq'];
         metadata.forEach(subject =>{
             if (subject['id'] == name){
@@ -164,7 +164,7 @@ function bubbleGraph(name){
         if  (typeof(name) == "undefined"){
             name = '940';
         }
-        console.log(name);
+       
         var thisOne = samples[0];
         samples.forEach(subject =>{
             if (subject['id'] == name){
