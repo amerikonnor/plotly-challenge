@@ -22,6 +22,7 @@ function optionChanged(name){
     updateTable(name);
     barGraph(name);
     bubbleGraph(name);
+    gauge(name);
 };
 
 function updateTable(name){
@@ -93,6 +94,63 @@ function barGraph(name){
     })
 }
 
+function gauge(name){
+    d3.json("../samples.json").then(importedData => {
+        //dictionary, keys are
+        // id
+        // ethnitcity
+        //gender
+        //age
+        //location
+        //bbtype
+        //wfreq
+        var metadata = importedData.metadata;
+        if  (typeof(name) == "undefined"){
+            name = '940';
+        }
+        console.log(name);
+        var washing = metadata[0]['wfreq'];
+        metadata.forEach(subject =>{
+            if (subject['id'] == name){
+                washing = subject['wfreq'];
+            }
+        });
+        var data = [
+            {
+                domain: { x: [0, 1], y: [0, 1] },
+                value: washing,            
+                type: "indicator",
+                mode: "gauge+number",
+                gauge:{
+                    axis:{range: [null,9]},
+                    steps:[
+                        {range:[0,1], color:'#f2fce2'},
+                        {range:[1,2], color:'#e3f9c1'},
+                        {range:[2,3], color:'#e4f6aa'},
+                        {range:[3,4], color:'#d9f287'},
+                        {range:[4,5], color:'#c8ed53'},
+                        {range:[5,6], color:'#c8f35f'},
+                        {range:[6,7], color:'#7cdf1c'},
+                        {range:[7,8], color:'#72cd1a'},
+                        {range:[8,9], color:'#62b016'},
+
+                    ]
+                    },
+                    title: { text: "<br><b>Belly Button Washing Frequency</b></br><br>Scrubs per Week"}
+                }
+            
+        ];
+        
+        var layout = {
+             width: 600, 
+             height: 500,
+             margin: { t: 0, b: 0 }, 
+             
+            };
+        Plotly.newPlot('gauge', data, layout);
+
+    })
+}
 
 function bubbleGraph(name){
     d3.json("../samples.json").then(importedData => {
