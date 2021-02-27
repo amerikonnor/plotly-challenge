@@ -19,6 +19,7 @@ function makeDropdown(){
         //dictionary, keys are
         // id
         // otu_id is an array
+        //sample values in an array
         // otu_names is an array
         var samples = data.samples;
 
@@ -35,6 +36,7 @@ function makeDropdown(){
 d3.selectAll('body').on('change',optionChanged(this.value));
 function optionChanged(name){
     updateTable(name);
+    bubbleGraph(name);
 };
 
 function updateTable(name){
@@ -72,6 +74,55 @@ function updateTable(name){
     })
 };
 
+
+
+
+function bubbleGraph(name){
+    d3.json("../samples.json").then(importedData => {
+        var data = importedData;
+        //array of dictionaries, keys are
+        // id
+        // otu_ids is an array
+        //sample_values in an array
+        // otu_names is an array
+        var samples = data.samples;
+        if  (typeof(name) == "undefined"){
+            name = '940';
+        }
+        console.log(name);
+        var thisOne = samples[0];
+        samples.forEach(subject =>{
+            if (subject['id'] == name){
+                thisOne = subject;
+            }
+        });
+
+        var trace1 = [{
+            x: thisOne['otu_ids'],
+            y: thisOne['sample_values'],
+            mode: 'markers',
+            marker:{
+                color:thisOne['otu_ids'],
+                size: thisOne['sample_values']
+            }
+        }]
+
+        var layout = {
+            title: 'Operational Taxonomy Units (OTU)',
+            xaxis:{
+                title: 'OTU ID'
+            },
+            yaxis:{
+                title: 'Sample Value'
+            }
+        }
+
+        Plotly.newPlot('bubble',trace1,layout);
+
+        
+
+    })
+}
 function init(){
     makeDropdown();
     
