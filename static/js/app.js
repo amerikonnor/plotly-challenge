@@ -34,6 +34,10 @@ function makeDropdown(){
 };
 d3.selectAll('body').on('change',optionChanged(this.value));
 function optionChanged(name){
+    updateTable(name);
+};
+
+function updateTable(name){
     d3.json("../samples.json").then(importedData => {
 
         //dictionary, keys are
@@ -71,6 +75,6 @@ function optionChanged(name){
 function init(){
     makeDropdown();
     
-}
+};
 
 init();
