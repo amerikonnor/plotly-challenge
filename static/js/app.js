@@ -6,22 +6,6 @@ function makeDropdown(){
         // array of ids
          var names = data.names;
 
-        //dictionary, keys are
-        // id
-        // ethnitcity
-        //gender
-        //age
-        //location
-        //bbtype
-        //wfreq
-        var metadata = data.metadata;
-
-        //dictionary, keys are
-        // id
-        // otu_id is an array
-        //sample values in an array
-        // otu_names is an array
-        var samples = data.samples;
 
         var dropDown = d3.select('#selDataset');
     
@@ -36,6 +20,7 @@ function makeDropdown(){
 d3.selectAll('body').on('change',optionChanged(this.value));
 function optionChanged(name){
     updateTable(name);
+    barGraph(name);
     bubbleGraph(name);
 };
 
@@ -74,7 +59,39 @@ function updateTable(name){
     })
 };
 
+function barGraph(name){
+    d3.json("../samples.json").then(importedData => {
+        var data = importedData;
+        //array of dictionaries, keys are
+        // id
+        // otu_ids is an array
+        //sample_values in an array
+        // otu_names is an array
+        var samples = data.samples;
+        if  (typeof(name) == "undefined"){
+            name = '940';
+        }
+        console.log(name);
+        var thisOne = samples[0];
+        samples.forEach(subject =>{
+            if (subject['id'] == name){
+                thisOne = subject;
+            }
+        });
 
+        ids = thisOne['otu_ids'].slice(0,10).map(id => `OTU ${id}`);
+        
+        var trace1 = [{
+            x: thisOne['sample_values'].slice(0,10).reverse(),
+            y: ids.reverse(),
+            hovertext: thisOne['otu_labels'].slice(0,10).reverse(),
+            type:'bar',
+            orientation:'h',
+        }]
+
+        Plotly.newPlot('bar',trace1);
+    })
+}
 
 
 function bubbleGraph(name){
@@ -84,7 +101,7 @@ function bubbleGraph(name){
         // id
         // otu_ids is an array
         //sample_values in an array
-        // otu_names is an array
+        // otu_labels is an array
         var samples = data.samples;
         if  (typeof(name) == "undefined"){
             name = '940';
@@ -123,6 +140,7 @@ function bubbleGraph(name){
 
     })
 }
+
 function init(){
     makeDropdown();
     
