@@ -1,5 +1,5 @@
 function makeDropdown(){
-    d3.json("./samples.json").then(importedData => {
+    d3.json("static/samples.json").then(importedData => {
 
         var data = importedData;
     
@@ -26,7 +26,7 @@ function optionChanged(name){
 };
 
 function updateTable(name){
-    d3.json("./samples.json").then(importedData => {
+    d3.json("static/samples.json").then(importedData => {
 
         //dictionary, keys are
         // id
@@ -61,7 +61,7 @@ function updateTable(name){
 };
 
 function barGraph(name){
-    d3.json("./samples.json").then(importedData => {
+    d3.json("static/samples.json").then(importedData => {
         var data = importedData;
         //array of dictionaries, keys are
         // id
@@ -95,7 +95,7 @@ function barGraph(name){
 }
 
 function gauge(name){
-    d3.json("./samples.json").then(importedData => {
+    d3.json("static/samples.json").then(importedData => {
         //dictionary, keys are
         // id
         // ethnitcity
@@ -153,7 +153,7 @@ function gauge(name){
 }
 
 function bubbleGraph(name){
-    d3.json("./samples.json").then(importedData => {
+    d3.json("static/samples.json").then(importedData => {
         var data = importedData;
         //array of dictionaries, keys are
         // id
